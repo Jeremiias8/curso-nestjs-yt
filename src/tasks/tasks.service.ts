@@ -1,5 +1,11 @@
 import { Injectable } from "@nestjs/common";
 
+export interface Usuario {
+    nombre: string;
+    desarrolladorWeb: boolean;
+    añosExp: number;
+}
+
 @Injectable()
 export class TasksService {
     static getTasks: any;
@@ -7,8 +13,12 @@ export class TasksService {
         throw new Error("Method not implemented.");
     } */
 
-    getTasks() {
-        return ['Task 1', 'Task 2', 'Task 3']
+    getTasks(): Usuario {
+        return {
+            nombre: 'Jere',
+            desarrolladorWeb: true,
+            añosExp: 2
+        }
     }
 
     createTask() {
