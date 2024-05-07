@@ -1,19 +1,22 @@
-import { Controller, Delete, Get, Patch, Post, Put } from "@nestjs/common";
+import { 
+    Controller, Delete, Get, Patch, Post, 
+    Put, Body, Query, Param } 
+from "@nestjs/common";
 import { TasksService } from "./tasks.service";
+import { CreateTaskDto } from "./dto/create-task.dto";
+import { UpdateTaskDto } from "./dto/update-task.dto";
 
 
 @Controller('/tasks')
 export class TasksController {
-    tasksService: TasksService;
-
-    constructor(tasksService: TasksService) {
-        this.tasksService = tasksService;
-    }
+    
+    constructor(private tasksService: TasksService) {}
 
     // en ruta GET, retornará la function
     @Get()
-    getAllTasks() {
+    getAllTasks(@Query() query: any) {
 
+        console.log(query);
         return this.tasksService.getTasks();
 
         // petición a back o API
@@ -25,14 +28,21 @@ export class TasksController {
         });
     }
 
+    @Get('/:id')
+    getTask(@Param('id') id: string) {
+        console.log(id);
+        return this.tasksService.getTask(parseInt(id));
+    }
+
     @Post()
-    createTask() {
-        return this.tasksService.createTask();
+    createTask(@Body() task: CreateTaskDto) {
+        console.log(task);
+        return this.tasksService.createTask(task);
     }
 
     @Put()
-    updateTask() {
-        return this.tasksService.updateTask();
+    updateTask(@Body() task: UpdateTaskDto) {
+        return this.tasksService.updateTask(task);
     }
 
     @Delete()

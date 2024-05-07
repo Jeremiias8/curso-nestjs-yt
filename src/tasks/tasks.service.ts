@@ -1,4 +1,6 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, HttpCode, NotFoundException } from "@nestjs/common";
+import { CreateTaskDto } from "./dto/create-task.dto";
+import { UpdateTaskDto } from "./dto/update-task.dto";
 
 export interface Usuario {
     nombre: string;
@@ -13,19 +15,33 @@ export class TasksService {
         throw new Error("Method not implemented.");
     } */
 
-    getTasks(): Usuario {
-        return {
-            nombre: 'Jere',
-            desarrolladorWeb: true,
-            añosExp: 2
+    private tasks = [];
+
+    getTasks() {
+        return this.tasks;
+    }
+
+    getTask(id: number) {
+        const tareaEncontrada = this.tasks.find(task => task.id === id);
+        
+        if (!tareaEncontrada) {
+            return new NotFoundException(`Tarea con id ${id} no encontrada`);
         }
+
+        return tareaEncontrada;
     }
 
-    createTask() {
-        return 'Creando tareas'
+    createTask(task: CreateTaskDto) {
+        console.log(task);
+        this.tasks.push({
+            ...task,
+            id: this.tasks.length + 1,
+        });
+        return task;
     }
 
-    updateTask() {
+    updateTask(task: UpdateTaskDto) {
+        console.log(task);
         return 'Actualizando tareas'
     }
 
