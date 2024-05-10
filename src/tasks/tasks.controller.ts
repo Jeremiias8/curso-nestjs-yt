@@ -5,15 +5,28 @@ from "@nestjs/common";
 import { TasksService } from "./tasks.service";
 import { CreateTaskDto } from "./dto/create-task.dto";
 import { UpdateTaskDto } from "./dto/update-task.dto";
+import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 
 
 @Controller('/tasks')
+@ApiTags('tasks')
 export class TasksController {
     
     constructor(private tasksService: TasksService) {}
 
     // en ruta GET, retornará la function
     @Get()
+    @ApiOperation({ 
+        summary: 'Obtener todas las tareas' 
+    })
+    @ApiResponse({
+        status: 200,
+        description: 'Retorno de todas las tareas.'
+    })
+    @ApiResponse({
+        status: 403,
+        description: 'Forbidden'
+    })
     getAllTasks(@Query() query: any) {
 
         console.log(query);
@@ -35,6 +48,7 @@ export class TasksController {
     }
 
     @Post()
+    @ApiOperation({ summary: 'Crear una tarea' })
     createTask(@Body() task: CreateTaskDto) {
         console.log(task);
         return this.tasksService.createTask(task);

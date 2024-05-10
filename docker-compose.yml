@@ -1,0 +1,11 @@
+version: '3.8'
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: jere
+      POSTGRES_PASSWORD: secretjfpassword
+      POSTGRES_DB: nestcursodb
+    ports:
+      - 5498:5432  
