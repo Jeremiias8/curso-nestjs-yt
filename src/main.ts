@@ -20,6 +20,11 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
+  // origin: limitar sitio web que tiene permiso CORS
+  app.enableCors({
+    origin: 'https://jerewebprogrammer.com'  
+  });
+
   await app.listen(3000);
 }
 bootstrap();
